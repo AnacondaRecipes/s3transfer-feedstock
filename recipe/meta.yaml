@@ -41,7 +41,7 @@ about:
   description: |
     S3transfer is a Python library for managing Amazon S3 transfers.
   dev_url: https://github.com/boto/s3transfer
-  doc_url: https://pypi.python.org/pypi/s3transfer
+  doc_url: https://pypi.org/project/s3transfer/
 
 extra:
   recipe-maintainers:
