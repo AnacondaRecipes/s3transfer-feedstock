@@ -1,4 +1,4 @@
-{% set version = "0.6.0" %}
+{% set version = "0.7.0" %}
 
 package:
   name: s3transfer
@@ -6,12 +6,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/s/s3transfer/s3transfer-{{ version }}.tar.gz
-  sha256: 2ed07d3866f523cc561bf4a00fc5535827981b117dd7876f036b0c1aca42c947
+  sha256: fd3889a66f5fe17299fe75b82eae6cf722554edca744ca5d5fe308b104883d2e
 
 build:
   skip: true  # [py<37]
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
 
 
 requirements:
@@ -37,12 +37,11 @@ about:
   license_file: LICENSE.txt
   license: Apache-2.0
   license_family: Apache
-  summary: An Amazon S3 Transfer Manager
-  dev_url: https://github.com/boto/s3transfer
+  summary: An Amazon S3 Transfer Manager for Python
   description: |
     S3transfer is a Python library for managing Amazon S3 transfers.
-  doc_url: https://pypi.python.org/pypi/s3transfer
-  doc_source_url: https://github.com/boto/s3transfer/blob/develop/README.rst
+  dev_url: https://github.com/boto/s3transfer
+  doc_url: https://pypi.org/project/s3transfer/
 
 extra:
   recipe-maintainers:
