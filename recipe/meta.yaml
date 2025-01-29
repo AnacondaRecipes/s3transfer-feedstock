@@ -1,5 +1,5 @@
 {% set name = "s3transfer" %}
-{% set version = "0.10.1" %}
+{% set version = "0.11.2" %}
 
 package:
   name: {{ name }}
@@ -7,13 +7,12 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 5683916b4c724f799e600f41dd9e10a9ff19871bf87623cc8f491cb4f5fa0a19
+  sha256: 3b39185cb72f5acc77db1a58b6e25b977f28d20496b6e58d6813d75f464d632f
 
 build:
   skip: true  # [py<38]
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-
 
 requirements:
   host:
@@ -23,21 +22,27 @@ requirements:
     - setuptools
   run:
     - python
-    - botocore >=1.33.2,<2.0a.0
+    - botocore >=1.36.0,<2.0a.0
 
 test:
+  source_files:
+    - tests
   imports:
     - s3transfer
-  requires:
-    - pip
   commands:
     - pip check
+    - pytest -v tests
+  requires:
+    - pip
+    - pytest
 
 about:
   home: https://github.com/boto/s3transfer
-  license_file: LICENSE.txt
   license: Apache-2.0
   license_family: Apache
+  license_file:
+    - NOTICE.txt
+    - LICENSE.txt
   summary: An Amazon S3 Transfer Manager for Python
   description: |
     S3transfer is a Python library for managing Amazon S3 transfers.
