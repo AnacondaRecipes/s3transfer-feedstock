@@ -24,6 +24,15 @@ requirements:
     - python
     - botocore >=1.36.0,<2.0a.0
 
+# Integration tests are required to validate real AWS services like S3 and SQS, which are not available in our environment.
+# Error example:
+#   - botocore.exceptions.NoCredentialsError: Unable to locate credentials
+# Skipping integration tests:
+{% set ignore_tests = " --ignore=tests/integration/" %}
+
+# AttributeError: Can't pickle local object 'TestBaseManager.create_pid_manager.<locals>.PIDManager'
+{% set tests_to_skip = "test_can_provide_signal_handler_initializers_to_start" %}
+
 test:
   source_files:
     - tests
@@ -31,7 +40,7 @@ test:
     - s3transfer
   commands:
     - pip check
-    - pytest -v tests
+    - pytest -v {{ ignore_tests }} -k "not ({{ tests_to_skip }})" tests
   requires:
     - pip
     - pytest
