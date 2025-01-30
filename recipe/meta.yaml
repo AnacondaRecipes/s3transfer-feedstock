@@ -49,9 +49,7 @@ about:
   home: https://github.com/boto/s3transfer
   license: Apache-2.0
   license_family: Apache
-  license_file:
-    - NOTICE.txt
-    - LICENSE.txt
+  license_file: LICENSE.txt
   summary: An Amazon S3 Transfer Manager for Python
   description: |
     S3transfer is a Python library for managing Amazon S3 transfers.
