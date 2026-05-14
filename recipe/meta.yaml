@@ -27,8 +27,9 @@ requirements:
 # Error example:
 #   - botocore.exceptions.NoCredentialsError: Unable to locate credentials
 # Skipping integration tests:
-# AttributeError: Can't pickle local object 'TestBaseManager.create_pid_manager.<locals>.PIDManager'
 {% set ignore_tests = " --ignore=tests/integration/" %}
+
+# AttributeError: Can't pickle local object 'TestBaseManager.create_pid_manager.<locals>.PIDManager'
 {% set tests_to_skip = "test_can_provide_signal_handler_initializers_to_start" %}
 test:
   source_files:
