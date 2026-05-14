@@ -42,7 +42,8 @@ test:
   requires:
     - pip
     - pytest
-    # Functional tests compare ALLOWED_UPLOAD_ARGS to botocore PutObject members.
+    # Functional tests tests/functional/test_upload.py::TestNonMultipartUpload::test_allowed_upload_params_are_valid
+    # compare ALLOWED_UPLOAD_ARGS to botocore PutObject members.
     # ChecksumMD5 appears in that shape starting botocore 1.43.0; 1.37.x–1.42.x have
     # other checksum members but not ChecksumMD5, so test_allowed_upload_params_are_valid
     # fails if the solver picks an older botocore (run still allows >=1.37.4 per PyPI).
