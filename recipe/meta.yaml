@@ -15,7 +15,8 @@ build:
   skip: true  # [py<310]
   script_env:
     # Tests require a valid CA bundle with the path to certificates.
-    - REQUESTS_CA_BUNDLE=$PREFIX/ssl/cacert.pem
+    - REQUESTS_CA_BUNDLE=$PREFIX/ssl/cacert.pem  # [not win]
+    - REQUESTS_CA_BUNDLE=$PREFIX/Library/ssl/cacert.pem  # [win]
 
 requirements:
   host:
