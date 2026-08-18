@@ -31,6 +31,11 @@ requirements:
 {% set ignore_tests = " --ignore=tests/integration/" %}
 # AssertionError: 'ChecksumMD5' not found in OrderedDict
 {% set tests_to_skip = "test_allowed_upload_params_are_valid" %}
+# AssertionError: 'AnnotationDirective' not found in OrderedDict
+{% set tests_to_skip = tests_to_skip +" and not test_allowed_copy_params_are_valid" %}
+# - ValueError: Client s3 does not have method: list_object_annotations
+{% set tests_to_skip = tests_to_skip +" and not test_mp_copy_forwards_passthrough_args_to_tag_and_annotation_calls" %}
+
 
 test:
   source_files:
@@ -41,7 +46,7 @@ test:
     - pip check
     # Tests require a valid CA bundle with the path to certificates.
     - export REQUESTS_CA_BUNDLE=/ssl/cacert.pem  # [not win]
-    - pytest -vv tests {{ ignore_tests }} -k "not ({{ tests_to_skip }})"
+    - pytest -vv tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
   requires:
     - pip
     - pytest
