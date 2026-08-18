@@ -1,5 +1,5 @@
 {% set name = "s3transfer" %}
-{% set version = "0.18.0" %}
+{% set version = "0.19.2" %}
 
 package:
   name: {{ name }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3760b8b7ec1315da54048b2d626276732bee4300d054d492d4e1d43e20d4ecbd
+  sha256: ba0309fd86be3c27dbf78cdd813c13c5e1df16e5874b99d2535ebbdfb9892993
 
 build:
   number: 0
@@ -39,10 +39,15 @@ test:
     - s3transfer
   commands:
     - pip check
-    - pytest -v tests {{ ignore_tests }} -k "not ({{ tests_to_skip }})"
+    # Tests require a valid CA bundle with the path to certificates.
+    - export REQUESTS_CA_BUNDLE=/ssl/cacert.pem  # [not win]
+    - pytest -vv tests {{ ignore_tests }} -k "not ({{ tests_to_skip }})"
   requires:
     - pip
     - pytest
+    # Tests require a valid CA bundle with the path to certificates.
+    # ca-certificates contains needed certificates.
+    - ca-certificates
 
 about:
   home: https://github.com/boto/s3transfer
