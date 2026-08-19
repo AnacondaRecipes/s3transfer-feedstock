@@ -13,10 +13,6 @@ build:
   number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   skip: true  # [py<310]
-  script_env:
-    # Tests require a valid CA bundle with the path to certificates.
-    - REQUESTS_CA_BUNDLE=$PREFIX/ssl/cacert.pem  # [not win]
-    - REQUESTS_CA_BUNDLE=$PREFIX/Library/ssl/cacert.pem  # [win]
 
 requirements:
   host:
@@ -40,13 +36,14 @@ requirements:
 # - ValueError: Client s3 does not have method: list_object_annotations
 {% set tests_to_skip = tests_to_skip +" and not test_mp_copy_forwards_passthrough_args_to_tag_and_annotation_calls" %}
 
-
 test:
   source_files:
     - tests
   imports:
     - s3transfer
   commands:
+    - export REQUESTS_CA_BUNDLE=$PREFIX/ssl/cacert.pem  # [not win]
+    - export REQUESTS_CA_BUNDLE=$PREFIX/Library/ssl/cacert.pem  # [win]
     - pip check
     - pytest -vv tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
   requires:
