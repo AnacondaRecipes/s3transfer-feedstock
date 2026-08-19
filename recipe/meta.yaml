@@ -13,6 +13,9 @@ build:
   number: 1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   skip: true  # [py<310]
+  script_env:
+    - REQUESTS_CA_BUNDLE=$PREFIX/ssl/cacert.pem  # [not win]
+    - REQUESTS_CA_BUNDLE=%PREFIX%\Library\ssl\cacert.pem  # [win]
 
 requirements:
   host:
@@ -42,8 +45,6 @@ test:
   imports:
     - s3transfer
   commands:
-    - export REQUESTS_CA_BUNDLE=$PREFIX/ssl/cacert.pem  # [not win]
-    - set "REQUESTS_CA_BUNDLE=%PREFIX%\Library\ssl\cacert.pem"  # [win]
     - pip check
     - pytest -vv tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
   requires:
