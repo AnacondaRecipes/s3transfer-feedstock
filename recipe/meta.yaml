@@ -43,7 +43,7 @@ test:
     - s3transfer
   commands:
     - export REQUESTS_CA_BUNDLE=$PREFIX/ssl/cacert.pem  # [not win]
-    - export REQUESTS_CA_BUNDLE=$PREFIX/Library/ssl/cacert.pem  # [win]
+    - set "REQUESTS_CA_BUNDLE=%PREFIX%\Library\ssl\cacert.pem"  # [win]
     - pip check
     - pytest -vv tests {{ ignore_tests }} -k "not {{ tests_to_skip }}"
   requires:
