@@ -1,16 +1,27 @@
 {% set name = "s3transfer" %}
-{% set version = "0.19.2" %}
+{% set version = "0.19.3" %}
+{% set ignore_tests = " --ignore=tests/integration/" %}
+{% set tests_to_skip = "test_allowed_upload_params_are_valid" %}
+{% set tests_to_skip = tests_to_skip +" and not test_allowed_copy_params_are_valid" %}
+{% set tests_to_skip = tests_to_skip +" and not test_mp_copy_forwards_passthrough_args_to_tag_and_annotation_calls" %}
 
+# Integration tests are required to validate real AWS services like S3 and SQS, which are not available in our environment.
+# Error example:
+#   - botocore.exceptions.NoCredentialsError: Unable to locate credentials
+# Skipping integration tests:
+# AssertionError: 'ChecksumMD5' not found in OrderedDict
+# AssertionError: 'AnnotationDirective' not found in OrderedDict
+# - ValueError: Client s3 does not have method: list_object_annotations
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: ba0309fd86be3c27dbf78cdd813c13c5e1df16e5874b99d2535ebbdfb9892993
+  sha256: 8326acc3d056d7f7b8a37110c7d2aea41f67e83f6ae79cd3b5fbcca34c726406
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   skip: true  # [py<310]
   script_env:
@@ -26,18 +37,6 @@ requirements:
   run:
     - python
     - botocore >=1.37.4,<2.0a.0
-
-# Integration tests are required to validate real AWS services like S3 and SQS, which are not available in our environment.
-# Error example:
-#   - botocore.exceptions.NoCredentialsError: Unable to locate credentials
-# Skipping integration tests:
-{% set ignore_tests = " --ignore=tests/integration/" %}
-# AssertionError: 'ChecksumMD5' not found in OrderedDict
-{% set tests_to_skip = "test_allowed_upload_params_are_valid" %}
-# AssertionError: 'AnnotationDirective' not found in OrderedDict
-{% set tests_to_skip = tests_to_skip +" and not test_allowed_copy_params_are_valid" %}
-# - ValueError: Client s3 does not have method: list_object_annotations
-{% set tests_to_skip = tests_to_skip +" and not test_mp_copy_forwards_passthrough_args_to_tag_and_annotation_calls" %}
 
 test:
   source_files:
